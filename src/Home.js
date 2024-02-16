@@ -13,6 +13,8 @@ const Home = () => {
     },
   ]);
 
+  const [name, setName] = useState("mario");
+
   const handleDelete = (id) => {
     const newBlogs = blogs.filter((blog) => blog.id !== id);
     // console.log(blog.id);
@@ -21,8 +23,8 @@ const Home = () => {
 
   useEffect(() => {
     console.log("Use effect triggered!");
-    console.log(blogs);
-  });
+    // console.log(blogs);
+  }, [name]);
 
   return (
     <div className="home">
