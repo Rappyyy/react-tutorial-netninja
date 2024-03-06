@@ -1,3 +1,5 @@
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import BlogList from "./BlogList";
 import useFetch from "./useFetch";
 
@@ -7,6 +9,8 @@ const Home = () => {
     isPending,
     data: blogs,
   } = useFetch("http://localhost:8000/blogs");
+
+  const dispatch = useDispatch();
 
   return (
     <div className="home">

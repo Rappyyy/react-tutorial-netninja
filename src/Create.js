@@ -1,19 +1,27 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { setCreator } from "./redux/creator";
 
 const Create = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [author, setAuthor] = useState("mario");
   const [isPending, setIsPending] = useState(false);
+
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  const creator = useSelector((state) => state.creator);
+
+  const handleCreatorChange = (e) => {
+    dispatch(setCreator(e.target.value));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const blog = { title, body, author };
+    const blog = { title, body, creator: creator };
 
     setIsPending(true);
-
     fetch("http://localhost:8000/blogs/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -21,34 +29,23 @@ const Create = () => {
     }).then(() => {
       console.log("new blog added");
       setIsPending(false);
-      // history.go(-1);
       history.push("/");
     });
   };
 
   return (
     <div className="create">
-      <h2>Add a New Blog</h2>
+      <h2>Add ToDo List</h2>
       <form onSubmit={handleSubmit}>
-        <label>Blog title:</label>
+        <label>To do:</label>
         <input
           type="text"
           required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <label>Blog body:</label>
-        <textarea
-          required
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-        ></textarea>
-        <label>Blog author:</label>
-        <select value={author} onChange={(e) => setAuthor(e.target.value)}>
-          <option value="mario">mario</option>
-          <option value="yoshi">yoshi</option>
-        </select>
-        {!isPending && <button>Add Blog</button>}
+
+        {!isPending && <button>Add to do list</button>}
         {isPending && <button disabled>Adding blog...</button>}
       </form>
     </div>
